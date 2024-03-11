@@ -1,0 +1,18 @@
+
+agent.sources = source1
+agent.sinks = sink1
+agent.channels = channel1
+
+
+agent.sources.source1.type = netcat
+agent.sources.source1.bind = localhost
+agent.sources.source1.port = 22222
+
+agent.sinks.sink1.type = logger
+
+agent.sources.source1.channels = channel1
+agent.sinks.sink1.channel = channel1
+
+agent.channels.channel1.type = memory
+agent.channels.channel1.capacity = 1000
+agent.channels.channel1.transactionCapacity = 100
