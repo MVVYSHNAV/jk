@@ -1,0 +1,15 @@
+SELECT AVG(salary) AS average_salary
+FROM empdata;
+
+
+SELECT MAX(salary) AS maximum_salary
+FROM empdata;
+
+
+SELECT MIN(salary) AS minimum_salary
+FROM empdata;
+
+SELECT e.name, e.salary, e1.name, e1.salary
+FROM empdata e
+JOIN empdata1 e1 ON e.name = e1.name;
+
