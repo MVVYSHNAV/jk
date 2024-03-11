@@ -1,0 +1,25 @@
+start-all.sh
+hdfs dfsadmin -safemode leave
+
+javac -d . SalesMapper.java SalesReducer.java SalesDriver.java
+
+path
+
+javac -d . SalesMapper.java SalesReducer.java SalesDriver.java
+
+hadoop fs -mkdir /map
+
+hadoop fs -mkdir/map/in
+
+hadoop fs -put path of sales file /map/in
+
+hadoop fs -ls /map/in/ls (to check the sales file exists)
+
+sudo gedit manifest.txt
+(Main-Class:SalesCountry.SalesDriver)
+
+jar cfm PSPC.jar manifest.txt SalesCountry/*.class
+
+hadoop jar PSPC.jar /map/in /map/out
+
+hadoop dfs -cat /map/out/*
