@@ -1,0 +1,46 @@
+# Import necessary modules
+from pyspark.sql import SparkSession
+from pyspark.sql.functions import when
+
+# Create a SparkSession
+spark = SparkSession.builder \
+    .appName("group_and_categorize") \
+    .getOrCreate()
+
+# Assume you have empdata and empdata1 DataFrames loaded
+
+# Group empdata by department and calculate average salary
+avg_salary_empdata = empdata.groupBy("dept").avg("salary")
+
+# Group empdata1 by department and calculate average salary
+avg_salary_empdata1 = empdata1.groupBy("dept").avg("salary")
+
+# Union the two DataFrames
+avg_salary_union = avg_salary_empdata.union(avg_salary_empdata1)
+
+# Categorize employees based on average salary
+categorized_data = avg_salary_union.withColumn("salary_category",
+                                               when(avg_salary_union["avg(salary)"] < 10000, "Low")
+                                               .when((avg_salary_union["avg(salary)"] >= 10000) & (avg_salary_union["avg(salary)"] <= 15000), "Medium")
+                                               .otherwise("High"))
+
+# Show the result
+categorized_data.show()
+************************************************************************************
+# Import necessary modules
+from pyspark.sql import SparkSession
+
+# Create a SparkSession
+spark = SparkSession.builder \
+    .appName("average_salary_by_department") \
+    .getOrCreate()
+
+# Load the CSV file into a DataFrame
+df = spark.read.csv("employees.csv", header=True, inferSchema=True)
+
+# Group the data by department and calculate the average salary
+avg_salary_by_dept = df.groupBy("department").avg("salary")
+
+# Show the result
+avg_salary_by_dept.show()
+
