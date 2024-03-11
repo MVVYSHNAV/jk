@@ -18,3 +18,5 @@ agents.channels.ch.transactionCapacity = 100
 agent.sources.so.channels = ch
 agent.sinks.si.channel = ch
 agent.sinks.si.hdfs.countInterval=3
+
+flume-ng agent -n agent -f flume.txt
