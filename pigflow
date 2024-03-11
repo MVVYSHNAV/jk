@@ -1,0 +1,46 @@
+Average Salary in empdata:
+
+empdata = LOAD 'empdata' USING PigStorage(',') AS (emp_id:int, name:chararray, position:chararray, dept:chararray, tenure:int, salary:int);
+
+avg_salary = FOREACH (GROUP empdata ALL) GENERATE AVG(empdata.salary) AS avg_salary;
+****************************************************
+Maximum Salary in empdata:
+
+empdata = LOAD 'empdata' USING PigStorage(',') AS (emp_id:int, name:chararray, position:chararray, dept:chararray, tenure:int, salary:int);
+
+max_salary = FOREACH (GROUP empdata ALL) GENERATE MAX(empdata.salary) AS max_salary;
+**********************************************************
+Minimum Salary in empdata:
+
+empdata = LOAD 'empdata' USING PigStorage(',') AS (emp_id:int, name:chararray, position:chararray, dept:chararray, tenure:int, salary:int);
+
+min_salary = FOREACH (GROUP empdata ALL) GENERATE MIN(empdata.salary) AS min_salary;
+**********************************************************
+Join empdata and empdata1 on Name and Salary:
+
+empdata = LOAD 'empdata' USING PigStorage(',') AS (emp_id:int, name:chararray, position:chararray, dept:chararray, tenure:int, salary:int);
+empdata1 = LOAD 'empdata1' USING PigStorage(',') AS (emp_id:int, name:chararray, position:chararray, dept:chararray, tenure:int, salary:int);
+
+joined_data = JOIN empdata BY (name, salary), empdata1 BY (name, salary);
+************************************************************
+Filter records where salary is greater than 10000
+
+filtered_data = FILTER empdata BY salary > 10000;
+*************************************************************
+Order by department in ascending order and then by salary in descending order
+
+ordered_data = ORDER empdata BY dept ASC, salary DESC;
+************************************************************
+- Apply a 10% raise to each employee's salary
+
+raised_data = FOREACH empdata GENERATE emp_id, name, position, dept, tenure, salary * 1.1 AS raised_salary;
+*************************************************************
+-- Categorize employees based on salary
+
+categorized_data = FOREACH empdata GENERATE name, salary,
+    (CASE 
+        WHEN salary < 10000 THEN 'Low' 
+        WHEN salary >= 10000 AND salary <= 15000 THEN 'Medium' 
+        ELSE 'High' 
+    END) AS salary_category;
+*******************************************************
